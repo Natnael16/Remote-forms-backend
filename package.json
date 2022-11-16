@@ -1,11 +1,8 @@
 {
-  "name": "micro_yelp_backend",
+  "name": "make-pdf-backend",
   "version": "1.0.0",
-  "description": "Micro Yelp",
+  "description": "Make pdf",
   "main": "src/server.ts",
-  "engines": {
-    "node": "14.x"
-  },
   "scripts": {
     "dev": "nodemon --files src/server.ts",
     "start": "node dist/src/server.js",
