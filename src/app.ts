@@ -72,8 +72,10 @@ app.post("/fetch-pdf", async (req, res) => {
 
 app.post("/download-pdf", async (req, res) => {
   try {
-    const pdf = await generate(req.body);
     console.log("downloading ...");
+    const pdf = await generate(req.body);
+    
+    
     const filepath = path.join(__dirname,`${req.body.name}${req.body.regNo}.pdf`)
     // var pdftoimage = require("pdftoimage");
     // var file = pdf;
@@ -90,22 +92,22 @@ app.post("/download-pdf", async (req, res) => {
     //   .catch((err) =>{
     //     console.log(err.message);
     //   });
-    console.log(filepath)
+    
     res.download(filepath);
 
-    setTimeout(function () {
-      fs.unlink(filepath, (err) => {
-        if (err) {
+    // setTimeout(function () {
+      // fs.unlink(filepath, (err) => {
+        // if (err) {
           // console.log("delete failed");
-        }
+        // }
 
         // console.log(
         //   "FILE [" +
         //    ${req.body.name}${req.body.regNo}.pdf` +
         //     "] REMOVED!"
         // );
-      });
-    }, 60000);
+      // });
+//     }, 60000);
   } catch (error) {
     res.status(501);
     console.log(error.message)
@@ -146,8 +148,10 @@ const generate = async (body) => {
       printBackground: true
     });
     await browser.close();
+    console.log("pdf created",pdf.byteLength)
     return pdf;
   } catch (e) {
+    console.log("pdf creation error")
     return null;
   }
 };
