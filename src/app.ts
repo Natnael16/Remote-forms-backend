@@ -3,12 +3,11 @@ import express, {
 } from "express";
 
 import cors from "cors";
-// import { exportImages } from "pdf-into-jpg";
 
 import generatePdf from "./documents/generatePDF";
 import bodyParser from "body-parser";
 import puppeteer from "puppeteer";
-
+import { fromBuffer } from "pdf2pic";
 const app: Application = express();
 import path from "path";
 const formData = require("express-form-data");
@@ -74,40 +73,10 @@ app.post("/download-pdf", async (req, res) => {
   try {
     console.log("downloading ...");
     const pdf = await generate(req.body);
-    
-    
-    const filepath = path.join(__dirname,`${req.body.name}${req.body.regNo}.pdf`)
-    // var pdftoimage = require("pdftoimage");
-    // var file = pdf;
 
-    // // Returns a Promise
-    // pdftoimage(file, {
-    //   format: "jpg", // png, jpeg, tiff or svg, defaults to png
-    //   prefix: `${req.body.name}${req.body.regNo}`, // prefix for each image except svg, defaults to input filename
-    //   // / path to output directory, defaults to current directory
-    // })
-    //   .then(() => {
-    //     console.log("Conversion done");
-    //   })
-    //   .catch((err) =>{
-    //     console.log(err.message);
-    //   });
-    
-    res.download(filepath);
+    res.send(pdf);
 
-    // setTimeout(function () {
-      // fs.unlink(filepath, (err) => {
-        // if (err) {
-          // console.log("delete failed");
-        // }
 
-        // console.log(
-        //   "FILE [" +
-        //    ${req.body.name}${req.body.regNo}.pdf` +
-        //     "] REMOVED!"
-        // );
-      // });
-//     }, 60000);
   } catch (error) {
     res.status(501);
     console.log(error.message)
@@ -143,15 +112,13 @@ const generate = async (body) => {
     // Downlaod the PDF
     const pdf = await page.pdf({
       landscape: true,
-      path: path.join(__dirname,`${body.name}${body.regNo}.pdf`),
+      // path: path.join(__dirname,`${body.name}${body.regNo}.pdf`),
       format: "A4",
       printBackground: true
     });
     await browser.close();
-    console.log("pdf created",pdf.byteLength)
     return pdf;
   } catch (e) {
-    console.log("pdf creation error")
     return null;
   }
 };
