@@ -15,6 +15,7 @@ const os = require("os");
 import PdfForm from "../src/models/form";
 import uploader from "../src/utils/uploader";
 import cloudinaryConfigs from "./utils/cloudinary";
+import { pipeline } from "nodemailer/lib/xoauth2";
 
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
@@ -73,7 +74,7 @@ app.post("/download-pdf", async (req, res) => {
   try {
     console.log("downloading ...");
     const pdf = await generate(req.body);
-
+    res.contentType("application/pdf");
     res.send(pdf);
 
 
