@@ -74,9 +74,11 @@ app.post("/download-pdf", async (req, res) => {
   try {
     console.log("downloading ...");
     const pdf = await generate(req.body);
-    res.contentType("application/pdf");
-    res.send(pdf);
-
+    res.set({
+      "Content-Type": "application/pdf", //here you set the content type to pdf
+      "Content-Disposition": "inline; filename=" + `${req.body.name}` //if you change from inline to attachment if forces the file to download but inline displays the file on the browser
+    });
+    res.send(pdf); // here we send the pdf file to the browser
 
   } catch (error) {
     res.status(501);
