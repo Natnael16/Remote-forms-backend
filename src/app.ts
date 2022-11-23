@@ -73,7 +73,7 @@ app.post("/download-pdf", async (req, res) => {
   try {
     console.log("downloading ...");
     const pdf = await generate(req.body);
-    console.log("byte length", pdf.byteLength)
+    console.log("byte length", pdf)
     res.set({
       "Content-Type": "application/pdf", //here you set the content type to pdf
       "Content-Disposition": "filename=" + `${req.body.name}` //if you change from inline to attachment if forces the file to download but inline displays the file on the browser
@@ -117,11 +117,13 @@ const generate = async (body) => {
       landscape: true,
       // path: path.join(__dirname,`${body.name}${body.regNo}.pdf`),
       format: "A4",
-      printBackground: true
+      printBackground: true,
+      timeout : 300000
     });
     await browser.close();
     return pdf;
   } catch (e) {
+    console.log(e.message)
     return null;
   }
 };
