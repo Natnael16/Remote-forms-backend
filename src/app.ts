@@ -99,7 +99,7 @@ const generate = async (body) => {
   try {
     const browser = await puppeteer.launch({
       // headless: false,
-      args: ["--no-sandbox"]
+      ignoreDefaultArgs: ["--disable-extensions"]
     });
 
     // Create a new page
