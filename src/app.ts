@@ -5,17 +5,16 @@ import express, {
 import cors from "cors";
 
 import generatePdf from "./documents/generatePDF";
-import bodyParser from "body-parser";
+
 import puppeteer from "puppeteer";
-import { fromBuffer } from "pdf2pic";
+
 const app: Application = express();
-import path from "path";
+
 const formData = require("express-form-data");
 const os = require("os");
 import PdfForm from "../src/models/form";
 import uploader from "../src/utils/uploader";
 import cloudinaryConfigs from "./utils/cloudinary";
-import { pipeline } from "nodemailer/lib/xoauth2";
 
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
@@ -74,6 +73,7 @@ app.post("/download-pdf", async (req, res) => {
   try {
     console.log("downloading ...");
     const pdf = await generate(req.body);
+    console.log("byte length", pdf.byteLength)
     res.set({
       "Content-Type": "application/pdf", //here you set the content type to pdf
       "Content-Disposition": "filename=" + `${req.body.name}` //if you change from inline to attachment if forces the file to download but inline displays the file on the browser
