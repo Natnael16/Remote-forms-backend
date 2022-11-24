@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --files src/server.ts",
     "start": "node dist/src/server.js",
-    "postinstall": "node node_modules/puppeteer/install.js && tsc",
+    "postinstall": "tsc",
     "lint": "eslint . --ext .ts",
     "build": "tsc -p .",
     "prettier-watch": "onchange 'src/**/*.ts' -- prettier --write {{changed}}"
