@@ -6,7 +6,8 @@ import cors from "cors";
 
 import generatePdf from "./documents/generatePDF";
 
-import puppeteer from "puppeteer";
+// import puppeteer from "puppeteer";
+import html2canvas from "html2canvas"
 
 const app: Application = express();
 
@@ -72,13 +73,12 @@ app.post("/fetch-pdf", async (req, res) => {
 app.post("/download-pdf", async (req, res) => {
   try {
     console.log("downloading ...");
-    const pdf = await generate(req.body);
-    console.log("byte length", pdf)
+    var html = generatePdf(req.body);
     res.set({
-      "Content-Type": "application/pdf", //here you set the content type to pdf
-      "Content-Disposition": "inline; filename=" + `${req.body.name}` //if you change from inline to attachment if forces the file to download but inline displays the file on the browser
-    });
-    res.send(pdf); // here we send the pdf file to the browser
+      "Content-Type" : "text/html"
+        })
+    res.send(html)
+
 
   } catch (error) {
     res.status(501);
@@ -95,35 +95,43 @@ app.delete("/delete-pdf/:regNo", async (req, res) => {
   }
 });
 
-const generate = async (body) => {
-  try {
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'] 
-    });
+// const generate = async (body) => {
+//   try {
+    // const browser = await puppeteer.launch({
+    //   args: ['--no-sandbox', '--disable-setuid-sandbox'] 
+    // });
 
-    // Create a new page
-    const page = await browser.newPage();
-    var html = generatePdf(body);
+    // // Create a new page
+    // const page = await browser.newPage();
+//     let ConvertStringToHTML = function (str) {
+//    let parser = new DOMParser();
+//    let doc = parser.parseFromString(str, 'text/html');
+//    return doc.body;
+// };
+//     var html = generatePdf(body);
+//     html2canvas(ConvertStringToHTML(html)).then(function (canvas) {
+//       console.log(canvas)
+//     });
     //Get HTML content from HTML file
 
-    await page.setContent(html, { waitUntil: "networkidle0" });
+    // await page.setContent(html, { waitUntil: "networkidle0" });
 
-    // To reflect CSS used for screens instead of print
-    await page.emulateMediaType("screen");
+    // // To reflect CSS used for screens instead of print
+    // await page.emulateMediaType("screen");
 
-    // Downlaod the PDF
-    const pdf = await page.pdf({
-      landscape: true,
-      // path: path.join(__dirname,`${body.name}${body.regNo}.pdf`),
-      format: "A4",
-      printBackground: true,
-      timeout : 300000
-    });
-    await browser.close();
-    return pdf;
-  } catch (e) {
-    console.log(e.message)
-    return null;
-  }
-};
+    // // Downlaod the PDF
+    // const pdf = await page.pdf({
+    //   landscape: true,
+    //   // path: path.join(__dirname,`${body.name}${body.regNo}.pdf`),
+    //   format: "A4",
+    //   printBackground: true,
+    //   timeout : 300000
+    // });
+    // await browser.close();
+    // return pdf;
+//   } catch (e) {
+//     console.log(e.message)
+//     return null;
+//   }
+// };
 export default app;
