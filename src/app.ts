@@ -98,8 +98,7 @@ app.delete("/delete-pdf/:regNo", async (req, res) => {
 const generate = async (body) => {
   try {
     const browser = await puppeteer.launch({
-      headless: false,
-      args: ["--no-sandbox"]
+      product: "firefox"
     });
 
     // Create a new page

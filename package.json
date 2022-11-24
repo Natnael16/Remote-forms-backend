@@ -46,7 +46,7 @@
     "pdf2pic": "^2.1.4",
     "pdftoimage": "^1.0.0",
     "pino": "^8.4.0",
-    "puppeteer": "^19.2.0",
+    "puppeteer": "^19.3.0",
     "ts-node": "^10.2.1"
   },
   "devDependencies": {
