@@ -20,8 +20,7 @@ const pdfSchema = new mongoose.Schema({
     },
     id :{
         type: Number,
-        // unique: true,
-        // required : [true,"Please add your Id"],
+   
 
     },
     image : {

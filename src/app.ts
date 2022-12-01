@@ -4,10 +4,10 @@ import express, {
 
 import cors from "cors";
 
-import generatePdf from "./documents/generatePDF";
+// import generatePdf from "./documents/generatePDF";
 
 // import puppeteer from "puppeteer";
-import html2canvas from "html2canvas"
+// import html2canvas from "html2canvas"
 
 const app: Application = express();
 
@@ -48,6 +48,7 @@ app.post("/create-pdf", uploader.uploadImage, async (req, res) => {
 
     res.status(201).send({ Document: created_doc });
   } catch (error) {
+    console.log(error.message)
     res.status(204).send({ error: error.message });
   }
 });
@@ -70,21 +71,21 @@ app.post("/fetch-pdf", async (req, res) => {
   }
 });
 
-app.post("/download-pdf", async (req, res) => {
-  try {
-    console.log("downloading ...");
-    var html = generatePdf(req.body);
-    res.set({
-      "Content-Type" : "text/html"
-        })
-    res.send(html)
+// app.post("/download-pdf", async (req, res) => {
+//   try {
+//     console.log("downloading ...");
+//     var html = generatePdf(req.body);
+//     res.set({
+//       "Content-Type" : "text/html"
+//         })
+//     res.send(html)
 
 
-  } catch (error) {
-    res.status(501);
-    console.log(error.message)
-  }
-});
+//   } catch (error) {
+//     res.status(501);
+//     console.log(error.message)
+//   }
+// });
 
 app.delete("/delete-pdf/:regNo", async (req, res) => {
   try {
