@@ -20,7 +20,7 @@ const pdfSchema = new mongoose.Schema({
     },
     id :{
         type: Number,
-   
+        default : 0
 
     },
     image : {
