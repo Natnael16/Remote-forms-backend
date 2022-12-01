@@ -18,11 +18,7 @@ const pdfSchema = new mongoose.Schema({
         required : [true,"Please add your Registration No"],
 
     },
-    id :{
-        type: Number,
-        default : 0
-
-    },
+   
     image : {
         type: String,
         required : true
